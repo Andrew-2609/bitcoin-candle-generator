@@ -1,1 +1,5 @@
+# Generated Files
 node_modules/
+
+# Environment
+.env
