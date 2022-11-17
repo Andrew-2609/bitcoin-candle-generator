@@ -1,7 +1,10 @@
 {
   "name": "bitcoin-candle-generator",
   "version": "1.0.0",
+  "description": "Simple project made with TypeScript to generate Candles (for Candlestick Charts) and enqueue them using RabbitMQ.",
   "main": "index.js",
+  "repository": "https://github.com/Andrew-2609/bitcoin-candle-generator",
+  "author": "Andrew Monteiro <andrew.agoravai@gmail.com>",
   "license": "MIT",
   "scripts": {
     "start": "ts-node src/index.ts"
