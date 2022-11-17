@@ -2,6 +2,7 @@ import { config } from 'dotenv'
 import axios from 'axios'
 import Period from './enums/period'
 import { Candle } from './models/candle'
+import { createMessageChannel } from './messages/messageChannel'
 
 config()
 
@@ -13,6 +14,10 @@ const readMarketPrice = async (): Promise<number> => {
 }
 
 const generateCandles = async () => {
+  const messageChannel = await createMessageChannel()
+
+  if (!messageChannel) return
+
   while (true) {
     const loopTimes = Period.ONE_MINUTE / Period.TEN_SECONDS
     const candle = new Candle('BTC')
@@ -28,7 +33,12 @@ const generateCandles = async () => {
 
     candle.closeCandle()
     console.log('Candle closed')
-    console.log(candle.toSimpleObject())
+
+    const candleObj = candle.toSimpleObject()
+    console.log(candleObj)
+
+    messageChannel.sendToQueue(process.env.QUEUE_NAME, Buffer.from(JSON.stringify(candleObj)))
+    console.log('Candle enqueued')
   }
 }
 
